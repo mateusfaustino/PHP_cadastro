@@ -1,0 +1,25 @@
+#list{
+    width: 100%;
+    
+}
+#list table{
+    border: solid 1px #000;
+    width: 100%;
+    background: #cacaca;
+}
+#list tr, #list th,#list td{
+    border: solid 1px #000;
+    background: #fff;
+    padding: 2px;
+}
+
+#list table {
+    padding: 2px;
+}
+
+@media (min-width: 600px) {
+    #list{
+        width: 60%;
+    }
+
+}
