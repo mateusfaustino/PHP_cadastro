@@ -1,3 +1,12 @@
+<?php
+    try {
+        $pdo = new PDO("mysql:dbname=phpcadastro;host=localhost", "root","");
+    }catch (PDOException $e) {
+        echo 'Database error: '.$e->getMessage();
+    }catch(Exception $e){
+        echo 'Database error: '.$e->getMessage();
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -28,6 +37,31 @@
                     <th> Nome</th>
                     <th>Telefone</th>
                     <th>Email</th>
+                </tr>
+                <tr>
+                    <td>Nome</td>
+                    <td>Telefone</td>
+                    <td>Email</td>
+                </tr>
+                <tr>
+                    <td>Nome</td>
+                    <td>Telefone</td>
+                    <td>Email</td>
+                </tr>
+                <tr>
+                    <td>Nome</td>
+                    <td>Telefone</td>
+                    <td>Email</td>
+                </tr>
+                <tr>
+                    <td>Nome</td>
+                    <td>Telefone</td>
+                    <td>Email</td>
+                </tr>
+                <tr>
+                    <td>Nome</td>
+                    <td>Telefone</td>
+                    <td>Email</td>
                 </tr>
                 <tr>
                     <td>Nome</td>
