@@ -1,12 +1,16 @@
 <?php
-    try {
-        $pdo = new PDO("mysql:dbname=phpcadastro;host=localhost", "root","");
-    }catch (PDOException $e) {
-        echo 'Database error: '.$e->getMessage();
-    }catch(Exception $e){
-        echo 'Database error: '.$e->getMessage();
-    }
+    // try {
+    //     $pdo = new PDO("mysql:dbname=phpcadastro;host=localhost", "root","");
+    // }catch (PDOException $e) {
+    //     echo 'Database error: '.$e->getMessage();
+    // }catch(Exception $e){
+    //     echo 'Database error: '.$e->getMessage();
+    // }
+    require_once 'class-people.php';
+    $people = new People("phpcadastro","localhost","root","");
+    $data = $people->findData();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -21,7 +25,7 @@
 <body>
     <div id="wrapper">
         <section id='registration'>
-            <form action="">
+            <form action="" method='POST'>
                 <h2>Cadastro de pessoas</h2>
                 <label for="name">nome</label>
                 <input type="text" name="name">
@@ -29,6 +33,7 @@
                 <input type="text" name='phone'>
                 <label for="email">Email</label>
                 <input type="text" name="email">
+                <input type="submit">
             </form>
         </section>
         <section id='list'>
@@ -38,36 +43,30 @@
                     <th>Telefone</th>
                     <th>Email</th>
                 </tr>
-                <tr>
-                    <td>Nome</td>
-                    <td>Telefone</td>
-                    <td>Email</td>
-                </tr>
-                <tr>
-                    <td>Nome</td>
-                    <td>Telefone</td>
-                    <td>Email</td>
-                </tr>
-                <tr>
-                    <td>Nome</td>
-                    <td>Telefone</td>
-                    <td>Email</td>
-                </tr>
-                <tr>
-                    <td>Nome</td>
-                    <td>Telefone</td>
-                    <td>Email</td>
-                </tr>
-                <tr>
-                    <td>Nome</td>
-                    <td>Telefone</td>
-                    <td>Email</td>
-                </tr>
-                <tr>
-                    <td>Nome</td>
-                    <td>Telefone</td>
-                    <td>Email</td>
-                </tr>
+                <?php
+                    if(count($data)>0){
+                        for ($i=0; $i < count($data); $i++) { 
+                            ?>
+                            <tr>
+                            <?php
+                                foreach ($data[$i] as $key => $value){
+                                    if($key!="id"){
+                                        ?>
+                                        <td>
+                                        <?php
+                                        echo $value;
+                                        ?>
+                                        </td>
+                                        <?php
+                                    }
+                                }
+                            ?>
+                            </tr>
+                            <?php
+                        }
+                    }
+                ?>
+                
             </table>
         </section>
     </div>
