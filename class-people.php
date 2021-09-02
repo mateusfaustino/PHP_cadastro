@@ -24,7 +24,22 @@
             $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
             return $res;
         }
-
+        
+        public function register($name, $phone, $email){
+            $cmd = $this->pdo->prepare("SELECT id FROM phpcadastro.people WHERE email = :e");
+            $cmd->bindValue(":e", $email);
+            $cmd->execute();
+            if ($cmd->rowCount() > 0){
+                return false;
+            }else{
+                $cmd = $this->pdo->prepare("INSERT INTO phpcadastro.people (name, phone, email) VALUES (:n, :p, :e)");
+                $cmd->bindValue(":n", $name);
+                $cmd->bindValue(":p", $phone);
+                $cmd->bindValue(":e", $email);
+                $cmd->execute();
+                return true;
+            }
+        }
     }
 
 ?>

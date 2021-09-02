@@ -23,9 +23,25 @@
     <title>Cadastro</title>
 </head>
 <body>
+    <?php
+        if(isset($_POST['email'])){
+            $name = addslashes($_POST['name']);
+            $phone = addslashes($_POST['phone']);
+            $email = addslashes($_POST['email']);
+            if(!empty($name) && !empty($phone) && !empty($email)){
+                if(!$people->register($name, $phone, $email)){
+                    echo "Esse email já está cadastrado";    
+                }else{
+                    $people->register($name, $phone, $email);
+                }
+            }else{
+                echo "Por favor, preencha todos os campos";
+            }
+        }
+    ?>
     <div id="wrapper">
         <section id='registration'>
-            <form action="" method='POST'>
+            <form action="./" method='POST'>
                 <h2>Cadastro de pessoas</h2>
                 <label for="name">nome</label>
                 <input type="text" name="name">
