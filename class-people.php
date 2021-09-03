@@ -40,6 +40,14 @@
                 return true;
             }
         }
+        public function delete($id){
+            $cmd = $this->pdo->prepare("DELETE FROM phpcadastro.people WHERE id=:id");
+            $cmd->bindValue(":id",$id);
+            $cmd->execute();
+        }
+        public function edit($id){
+
+        }
     }
 
 ?>

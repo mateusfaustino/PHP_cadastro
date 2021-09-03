@@ -4,18 +4,36 @@
     border: solid #fafafa 1px;
 }
 
+#registration .registration_header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+#registration .registration_button{
+    margin-top: 16px;
+    padding:4px;
+}
+    
 #registration form{
     display: flex;
     flex-direction: column;
-    background: #cacaca;
-    border: solid #000 1px;
+    background: #dadce0;
+    border: 1px solid #dadce0;
     padding: 4px;
+    border-radius: 8px;
 }
 
 #registration form input{
     margin-bottom: 8px;
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
 }
 
+#registration form label{
+    font-size: 12px;
+}
 
 
 

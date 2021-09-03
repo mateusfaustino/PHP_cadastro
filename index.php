@@ -1,11 +1,4 @@
 <?php
-    // try {
-    //     $pdo = new PDO("mysql:dbname=phpcadastro;host=localhost", "root","");
-    // }catch (PDOException $e) {
-    //     echo 'Database error: '.$e->getMessage();
-    // }catch(Exception $e){
-    //     echo 'Database error: '.$e->getMessage();
-    // }
     require_once 'class-people.php';
     $people = new People("phpcadastro","localhost","root","");
     $data = $people->findData();
@@ -33,23 +26,30 @@
                     echo "Esse email já está cadastrado";    
                 }else{
                     $people->register($name, $phone, $email);
+                    header("location: index.php");
                 }
             }else{
                 echo "Por favor, preencha todos os campos";
             }
         }
+        if(isset($_GET['id'])){
+             $people->delete(addslashes($_GET['id']));
+             header("location: index.php");
+        }
     ?>
     <div id="wrapper">
         <section id='registration'>
             <form action="./" method='POST'>
-                <h2>Cadastro de pessoas</h2>
+                <div class='registration_header'>
+                    <h2>Cadastro de pessoas</h2>
+                </div>    
                 <label for="name">nome</label>
                 <input type="text" name="name">
                 <label for="phone">Telefone</label>
                 <input type="text" name='phone'>
                 <label for="email">Email</label>
                 <input type="text" name="email">
-                <input type="submit">
+                <input class="registration_button" type="submit" >
             </form>
         </section>
         <section id='list'>
@@ -58,6 +58,7 @@
                     <th> Nome</th>
                     <th>Telefone</th>
                     <th>Email</th>
+                    <th>Configurar</th>
                 </tr>
                 <?php
                     if(count($data)>0){
@@ -76,7 +77,12 @@
                                         <?php
                                     }
                                 }
+                                
                             ?>
+                            <td class="confg">
+                                <a class="delete" href="./?id=<?php echo $data[$i]['id'];?>" id="list_delete">excluir</a>
+                                <a class="eidt" href="./?id-edit=<?php echo $data[$i]['id'];?>" id="list_delete">editar</a>
+                            </td>                             
                             </tr>
                             <?php
                         }
