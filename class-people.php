@@ -24,29 +24,48 @@
             $res = $cmd->fetchAll(PDO::FETCH_ASSOC);
             return $res;
         }
-        
-        public function register($name, $phone, $email){
+        public function emailAlreadyExists($email, $id){
             $cmd = $this->pdo->prepare("SELECT id FROM phpcadastro.people WHERE email = :e");
             $cmd->bindValue(":e", $email);
             $cmd->execute();
-            if ($cmd->rowCount() > 0){
-                return false;
+            $res = $cmd->fetch(PDO::FETCH_ASSOC);
+            if ($cmd->rowCount() > 0 && $res["id"]!=$id){
+                return true;
             }else{
+                return false;
+            }
+        }
+        public function register($name, $phone, $email){
                 $cmd = $this->pdo->prepare("INSERT INTO phpcadastro.people (name, phone, email) VALUES (:n, :p, :e)");
                 $cmd->bindValue(":n", $name);
                 $cmd->bindValue(":p", $phone);
                 $cmd->bindValue(":e", $email);
                 $cmd->execute();
-                return true;
-            }
         }
         public function delete($id){
             $cmd = $this->pdo->prepare("DELETE FROM phpcadastro.people WHERE id=:id");
             $cmd->bindValue(":id",$id);
             $cmd->execute();
         }
-        public function edit($id){
-
+        public function findOnePerson($id){
+            $res = array();
+            $cmd = $this->pdo->prepare("SELECT * FROM phpcadastro.people WHERE id=:id");
+            $cmd->bindValue(":id",$id);
+            $cmd->execute();
+            $res = $cmd->fetch(PDO::FETCH_ASSOC);
+            return $res;
+        }
+            
+        
+        public function Update($id, $name, $phone, $email){
+            $cmd = $this->pdo->prepare
+            ("UPDATE phpcadastro.people SET name=:n, phone=:p, email=:e WHERE id=:id");
+            $cmd->bindValue(":id",$id);
+            $cmd->bindValue(":n",$name);
+            $cmd->bindValue(":p",$phone);
+            $cmd->bindValue(":e",$email);
+            $cmd->execute();
+            
         }
     }
 

@@ -18,38 +18,122 @@
 <body>
     <?php
         if(isset($_POST['email'])){
-            $name = addslashes($_POST['name']);
-            $phone = addslashes($_POST['phone']);
-            $email = addslashes($_POST['email']);
-            if(!empty($name) && !empty($phone) && !empty($email)){
-                if(!$people->register($name, $phone, $email)){
-                    echo "Esse email já está cadastrado";    
+            
+            if(isset($_GET['id-edit']) && !empty($_GET['id-edit']) ){
+                
+                $name = addslashes($_POST['name']);
+                $phone = addslashes($_POST['phone']);
+                $email = addslashes($_POST['email']);
+                if(!empty($name) && !empty($phone) && !empty($email)){
+                    if($people->emailAlreadyExists($email,$_GET['id-edit'] ) ){
+                        echo "Esse email já está cadastrado"; 
+                        
+                    }else{
+                        $people->update($_GET['id-edit'], $name, $phone, $email);
+                        header("location: index.php");
+                    }
                 }else{
-                    $people->register($name, $phone, $email);
-                    header("location: index.php");
+                    echo "Por favor, preencha todos os campos";
                 }
             }else{
-                echo "Por favor, preencha todos os campos";
+                $name = addslashes($_POST['name']);
+                $phone = addslashes($_POST['phone']);
+                $email = addslashes($_POST['email']);
+                if(!empty($name) && !empty($phone) && !empty($email)){
+                    if($people->emailAlreadyExists($email,null)){
+                        echo "Esse email já está cadastrado";    
+                    }else{
+                        $people->register($name, $phone, $email);
+                        header("location: index.php");
+                    }
+                }else{
+                    echo "Por favor, preencha todos os campos";
+                }
             }
+                    
         }
         if(isset($_GET['id'])){
-             $people->delete(addslashes($_GET['id']));
-             header("location: index.php");
+            $people->delete(addslashes($_GET['id']));
+            header("location: index.php");
         }
-    ?>
+        ?>
     <div id="wrapper">
         <section id='registration'>
-            <form action="./" method='POST'>
+            <?php
+                if(isset($_GET['id-edit'])){
+                    $personData = $people->findOnePerson(addslashes($_GET['id-edit']));
+                    
+                }
+
+            ?>
+            <form 
+                action=
+                    <?php
+                        if(isset($_GET['id-edit'])){
+                            echo "./?id-edit=".$_GET['id-edit'];
+                        }else{
+                            echo "./";
+                        }
+                    ?> 
+                method='POST'
+                class="
+                    <?php
+                        if(isset($_GET['id-edit'])){
+                            echo "edit";
+                        }
+                    ?>
+                "
+            >
                 <div class='registration_header'>
-                    <h2>Cadastro de pessoas</h2>
+                    <h2>
+                        <?php
+                            if(isset($_GET['id-edit'])){
+                                echo "Atualizar registro";
+                            }else{
+                               echo "Cadastrar pessoa";
+                            }
+                        ?>
+                    </h2>
                 </div>    
-                <label for="name">nome</label>
-                <input type="text" name="name">
-                <label for="phone">Telefone</label>
-                <input type="text" name='phone'>
-                <label for="email">Email</label>
-                <input type="text" name="email">
-                <input class="registration_button" type="submit" >
+                <label for="name">nome*</label>
+                <input type="text" name="name"
+                value=
+                    <?php  
+                        if(isset($_GET['id-edit'])){
+                            echo $personData['name'];
+                        } 
+                    ?>
+                >
+                <label for="phone">telefone*</label>
+                <input type="text" name='phone'
+                value=
+                    <?php  
+                        if(isset($_GET['id-edit'])){
+                            echo $personData['phone'];
+                        } 
+                    ?>
+                >
+                <label for="email">email*</label>
+                <input type="text" name="email"
+                value=
+                    <?php  
+                        if(isset($_GET['id-edit'])){
+                            echo $personData['email'];
+                        } 
+                    ?>
+                >
+                <div class='registration_control'>
+                    <input value=
+                    <?php
+                            if(isset($_GET['id-edit'])){
+                                echo "atualizar";
+                            }else{
+                               echo "cadastrar";
+                            }
+                    ?>
+                     class="registration_button save" type="submit" >
+                    <a href="index.php" class="registration_button cancel" >cancelar</a>
+                </div>
             </form>
         </section>
         <section id='list'>
@@ -80,8 +164,8 @@
                                 
                             ?>
                             <td class="confg">
+                                <a class="edit" href="./?id-edit=<?php echo $data[$i]['id'];?>" id="list_delete">editar</a>
                                 <a class="delete" href="./?id=<?php echo $data[$i]['id'];?>" id="list_delete">excluir</a>
-                                <a class="eidt" href="./?id-edit=<?php echo $data[$i]['id'];?>" id="list_delete">editar</a>
                             </td>                             
                             </tr>
                             <?php

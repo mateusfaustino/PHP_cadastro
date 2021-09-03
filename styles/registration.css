@@ -10,9 +10,23 @@
     justify-content: center;
     margin-bottom: 16px;
 }
+#registration  .registration_control{
+    display: flex;
+    justify-content: space-between;
+}
 #registration .registration_button{
     margin-top: 16px;
     padding:4px;
+    width: 100%;
+    background: #1a73e8;
+    color: #fff;
+}
+#registration .registration_button:hover{
+    background: #0049b5;
+    box-shadow: #000 2px 2px 2px;
+}
+#registration .registration_button.cancel{
+    display: none;
 }
     
 #registration form{
@@ -35,6 +49,28 @@
     font-size: 12px;
 }
 
+#registration .edit{
+    background: #ffff72;
+}
+#registration .edit .registration_button{
+    width: 40%;
+    margin-bottom: 8px;
+    border-radius: 4px;
+}
+#registration .edit .registration_button.cancel{
+    background: #ffff72;
+    color: #f44336;
+    border: 1px solid #f44336;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#registration .edit .registration_button.cancel:hover{
+    background: #ffeb3b;
+    color: #ba000d;
+    border: 1px solid #ba000d;
+    box-shadow: #000 2px 2px 2px;
+}
 
 
 @media (min-width: 600px) {

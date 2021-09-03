@@ -28,7 +28,14 @@
     border: solid 1px #dadce0;
     padding: 4px;
     border-radius: 4px;
-    background: #fff;
+}
+#list .confg a.edit{
+    background: #1a73e8;
+    color: #fff;
+}
+#list .confg a.delete{
+    background: #f44336;
+    color: #fff;
 }
 
 #list table {
